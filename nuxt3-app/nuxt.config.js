@@ -10,6 +10,7 @@ export default defineNuxtConfig({
   // CSS
   css: ["@/assets/styles/main.scss", "@/assets/fonts/fonts.scss", "@/assets/styles/normalize.scss"],
   vite: {
+      assetsInclude: ['**/*.glb', '**/*.gltf'],
       css: {
           preprocessorOptions: {
               sass: {

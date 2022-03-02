@@ -1517,6 +1517,11 @@ colorette@^2.0.16:
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.16.tgz#713b9af84fdb000139f04546bd4a93f62a5085da"
   integrity sha512-hUewv7oMjCp+wkBv5Rm0v87eJhq4woh5rSR+42YSQJKecCqgIqNkZ6lAlQms/BwHPJA5NKMRlpxPRv0n8HQW6g==
 
+commander@0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-0.5.2.tgz#f270326709a115a126cfed5623852439b8e4a3b5"
+  integrity sha1-8nAyZwmhFaEmz+1WI4UkObjko7U=
+
 commander@^2.20.0:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
@@ -5054,6 +5059,13 @@ standard-as-callback@^2.1.0:
   resolved "https://registry.yarnpkg.com/standard-as-callback/-/standard-as-callback-2.1.0.tgz#8953fc05359868a77b5b9739a665c5977bb7df45"
   integrity sha512-qoRRSyROncaz1z0mvYqIE4lCd9p2R90i6GxW3uZv5ucSu8tU7B5HXUP1gG8pVZsYNVaXjk8ClXHPttLyxAL48A==
 
+stats@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/stats/-/stats-1.0.0.tgz#4a3f63d81bd52cdecee313dacf1572aff57b7d29"
+  integrity sha1-Sj9j2BvVLN7O4xPazxVyr/V7fSk=
+  dependencies:
+    commander "0.5.2"
+
 "statuses@>= 1.5.0 < 2", statuses@~1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
@@ -5274,6 +5286,11 @@ text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
+
+three@^0.138.2:
+  version "0.138.2"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.138.2.tgz#946c7c550b58e16606343cec0e44715e8865c04e"
+  integrity sha512-l49+mdqpevKIk7ByLmt7cc5RdSwSnZ6rP1cLe8VCI/++c0/6AFYyHw6xjT2VyXYxodCnDSw7iARjKL2MlHVCOg==
 
 timsort@^0.3.0:
   version "0.3.0"

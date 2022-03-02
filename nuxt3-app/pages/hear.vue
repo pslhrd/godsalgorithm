@@ -26,6 +26,7 @@ const { data: menu } = await useAsyncData('menu', () => client.getSingle('menu')
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: lightgrey;
 }
 
 </style>

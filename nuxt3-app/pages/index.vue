@@ -1,19 +1,14 @@
 <template>
-  <Head>
-  <Title>God's Algorithm [V2.0]</Title>
-  </Head>
-  <Menu />
-  <section class="content">
-    <prismic-rich-text :field="home.data.title" />
+  <section class="home">
+    <Menu />
+    <WebGL />
   </section>
 </template>
 
 <script setup>
-
   const { client } = usePrismic()
   const { data: home } = await useAsyncData('home', () => client.getSingle('homepage'))
   const { data: menu } = await useAsyncData('menu', () => client.getSingle('menu'))
-
 </script>
 
 <style lang="scss" scoped>
@@ -28,6 +23,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: lightgrey;
 }
 
 </style>

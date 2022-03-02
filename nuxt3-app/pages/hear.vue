@@ -2,18 +2,16 @@
   <Head>
   <Title>God's Algorithm [V2.0]</Title>
   </Head>
-  <Menu />
+  <Menu :items="menu" />
   <section class="content">
-    <prismic-rich-text :field="home.data.title" />
+    <prismic-rich-text :field="hear.data.title" />
   </section>
 </template>
 
 <script setup>
-
-  const { client } = usePrismic()
-  const { data: home } = await useAsyncData('home', () => client.getSingle('homepage'))
-  const { data: menu } = await useAsyncData('menu', () => client.getSingle('menu'))
-
+const { client } = usePrismic()
+const { data: hear } = await useAsyncData('hear', () => client.getSingle('hear'))
+const { data: menu } = await useAsyncData('menu', () => client.getSingle('menu'))
 </script>
 
 <style lang="scss" scoped>

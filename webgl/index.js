@@ -20,7 +20,7 @@ import {
     Fog
   } from 'three'
 
-import model from '/models/model.gltf'
+import model from '/public/models/model.gltf'
 
   // Remove this if you don't need to load any 3D model
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'

@@ -6,6 +6,10 @@ export default defineNuxtConfig({
    // SSR
   target: 'static',
 
+  // GITHUBPAGES
+  // router: {
+  //   base: '/godsalgorithm/'
+  // },
 
   // CSS
   css: ["@/assets/styles/main.scss", "@/assets/fonts/fonts.scss", "@/assets/styles/normalize.scss"],

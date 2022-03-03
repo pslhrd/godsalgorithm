@@ -3,13 +3,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { App } from '~~/webgl/index'
 
 onMounted(() => {
     const container = document.querySelector('.webgl-wrapper')
     const app = new App(container)
     app.init()
+})
+
+onUnmounted(() => {
+    // app.destroy()
 })
 </script>
 

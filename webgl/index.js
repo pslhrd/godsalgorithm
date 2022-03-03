@@ -15,10 +15,12 @@ import {
     Mesh,
     PlaneGeometry,
     MeshStandardMaterial,
-    BoxHelper
+    BoxHelper,
+    PointLight,
+    Fog
   } from 'three'
 
-import model from 'public/models/model.gltf'
+import model from '/models/model.gltf'
 
   // Remove this if you don't need to load any 3D model
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
@@ -39,7 +41,7 @@ export class App {
     this._createCamera()
     this._createRenderer()
     this._createControls()
-    this._createLights()
+    this._createProps()
     this._loadModel().then(() => {
       this._addListeners()
       this.renderer.setAnimationLoop(() => {
@@ -63,14 +65,18 @@ export class App {
     this.scene = new Scene()
   }
 
-  _createLights() {
-    this.ambient = new AmbientLight(0xffffff, 1)
-    this.scene.add(this.ambient)
+  _createProps() {
+    const ambient = new AmbientLight(0xffffff, 1)
+    const point = new PointLight(0xffffff, 2, 50, 2)
+    point.position.set(0, 30 ,0)
+    this.scene.add(ambient, point)
+
     const geometry = new PlaneGeometry(100, 100)
     const material = new MeshStandardMaterial({color:0x101010})
     const plane = new Mesh(geometry, material)
     this.scene.add(plane)
     plane.rotation.x = - Math.PI / 2
+
   }
 
   _createCamera() {
@@ -81,6 +87,8 @@ export class App {
 
   _createControls() {
     this.controls = new OrbitControls( this.camera, this.renderer.domElement )
+    this.controls.enableDamping = true
+    this.controls.dampingFactor = 0.085
   }
 
   _createRenderer() {
@@ -92,7 +100,7 @@ export class App {
     this.container.appendChild(this.renderer.domElement)
 
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight)
-    this.renderer.setPixelRatio(1)
+    this.renderer.setPixelRatio(2)
     // this.renderer.physicallyCorrectLights = true
   }
 
@@ -101,8 +109,8 @@ export class App {
     return new Promise(resolve => {
       this.gltfLoader.load(model, gltf => {
         this.model = gltf.scene.children[0]
-        this.model.position.set(0,8,0)
-        this.model.scale.set(0.1,0.1,0.1)
+        this.model.position.set(0,4,0)
+        this.model.scale.set(0.05,0.05,0.05)
         this.scene.add(this.model)
         resolve()
       })

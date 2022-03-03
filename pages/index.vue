@@ -23,7 +23,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: lightgrey;
+  background-color: #d3d3d3;
 }
 
 </style>

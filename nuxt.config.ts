@@ -3,13 +3,6 @@ import { defineNuxtConfig } from 'nuxt3'
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
 
-   // SSR
-
-  // GITHUBPAGES
-  // router: {
-  //   base: '/godsalgorithm/'
-  // },
-
   // CSS
   css: ["@/assets/styles/main.scss", "@/assets/fonts/fonts.scss", "@/assets/styles/normalize.scss"],
   vite: {

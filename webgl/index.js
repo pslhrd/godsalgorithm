@@ -17,10 +17,15 @@ import {
     MeshStandardMaterial,
     BoxHelper,
     PointLight,
+    AnimationMixer,
+    Clock,
     Fog
   } from 'three'
 
-import model from '/public/models/model.gltf'
+import model from '/public/models/falling.gltf'
+// import vertex from '/webgl/glsl/vertex.glsl'
+// import fragment from '/webgl/glsl/fragment.glsl'
+// import createParticles from '/webgl/particles'
 
   // Remove this if you don't need to load any 3D model
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
@@ -40,14 +45,15 @@ export class App {
     this._createScene()
     this._createCamera()
     this._createRenderer()
-    this._createControls()
+    // this._createControls()
     this._createProps()
     this._loadModel().then(() => {
       this._addListeners()
       this.renderer.setAnimationLoop(() => {
-        // this._update()
-        this._render()
-        this.controls.update()
+        this.delta = this.clock.getDelta()
+        this._render()       
+        // this.controls.update()
+        this.mixer.update(this.delta)
       })
     })
   }
@@ -67,22 +73,28 @@ export class App {
 
   _createProps() {
     const ambient = new AmbientLight(0xffffff, 1)
-    const point = new PointLight(0xffffff, 2, 50, 2)
-    point.position.set(0, 30 ,0)
+    const point = new PointLight(0xffffff, 1, 40, 2)
+    point.position.set(0, -10 ,0)
     this.scene.add(ambient, point)
 
-    const geometry = new PlaneGeometry(100, 100)
-    const material = new MeshStandardMaterial({color:0x101010})
-    const plane = new Mesh(geometry, material)
-    this.scene.add(plane)
-    plane.rotation.x = - Math.PI / 2
+    // const geometry = new PlaneGeometry(100, 100)
+    // const material = new MeshStandardMaterial({color:0x101010})
+    // const plane = new Mesh(geometry, material)
+    // this.scene.add(plane)
+    // plane.rotation.x = - Math.PI / 2
 
   }
 
+  _createParticles() {
+    const particles = createParticles.init()
+    this.scene.add(particles)
+  }
+
   _createCamera() {
-    console.log(this.container)
+    this.reference = new Vector3(-2, 8.5 , 0)
     this.camera = new PerspectiveCamera(75, this.container.clientWidth / this.container.clientHeight, 0.1, 1000)
-    this.camera.position.set(20, 20, 20)
+    this.camera.position.set(20, 5, 15)
+    this.camera.lookAt(this.reference)
   }
 
   _createControls() {
@@ -101,7 +113,15 @@ export class App {
 
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight)
     this.renderer.setPixelRatio(2)
-    // this.renderer.physicallyCorrectLights = true
+  }
+
+  _createAnimations(model) {
+    this.clock = new Clock()
+    this.mixer = new AnimationMixer(model.scene)
+    console.log(model.animations)
+    model.animations.forEach((clip) => {
+      this.mixer.clipAction(clip).play()
+    })
   }
 
   _loadModel() {
@@ -109,8 +129,9 @@ export class App {
     return new Promise(resolve => {
       this.gltfLoader.load(model, gltf => {
         this.model = gltf.scene.children[0]
-        this.model.position.set(0,4,0)
-        this.model.scale.set(0.05,0.05,0.05)
+        this.model.position.set(0,-2,0)
+        this.model.scale.set(0.005,0.005,0.005)
+        this._createAnimations(gltf)
         this.scene.add(this.model)
         resolve()
       })

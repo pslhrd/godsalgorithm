@@ -4,15 +4,11 @@
     <WebGL />
     <div class="home-background">
       <div>
-        <svg width="600" height="600" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="300" cy="300" r="150" stroke="white" stroke-opacity="0.06" stroke-width="2" stroke-dasharray="20 20"/>
+        <svg width="900" height="900" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="430" cy="450" r="400" stroke="white" stroke-opacity="0.02" stroke-width="4" stroke-dasharray="20 20"/>
         </svg>
       </div>
-      <div>
-        <svg width="800" height="800" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="400" cy="400" r="300" stroke="white" stroke-opacity="0.02" stroke-width="10"/>
-        </svg>
-      </div>
+      <div class="large"></div>
     </div>
   </section>
 </template>
@@ -33,6 +29,7 @@
   &-background {
     width: 100%;
     height: 100%;
+    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
@@ -41,6 +38,13 @@
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%)
+    }
+    .large {
+      border-radius: 100%;
+      border: 20px solid white;
+      width: 80vw;
+      height: 80vw;
+      opacity: 0.02;
     }
   }
 }

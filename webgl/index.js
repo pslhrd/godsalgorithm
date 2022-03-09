@@ -18,6 +18,10 @@ import {
     BoxHelper,
     PointLight,
     AnimationMixer,
+    BufferGeometry,
+    PointsMaterial,
+    Points,
+    Float32BufferAttribute,
     Clock,
     Fog
   } from 'three'
@@ -45,15 +49,18 @@ export class App {
     this._createScene()
     this._createCamera()
     this._createRenderer()
-    // this._createControls()
+    this._createControls()
     this._createProps()
+    this._createParticles('#FFFFFF')
     this._loadModel().then(() => {
       this._addListeners()
       this.renderer.setAnimationLoop(() => {
         this.delta = this.clock.getDelta()
+        this.time = this.clock.getElapsedTime()
         this._render()       
-        // this.controls.update()
+        this.controls.update()
         this.mixer.update(this.delta)
+        this._animateParticles(this.time)
       })
     })
   }
@@ -76,31 +83,72 @@ export class App {
     const point = new PointLight(0xffffff, 1, 40, 2)
     point.position.set(0, -10 ,0)
     this.scene.add(ambient, point)
-
-    // const geometry = new PlaneGeometry(100, 100)
-    // const material = new MeshStandardMaterial({color:0x101010})
-    // const plane = new Mesh(geometry, material)
-    // this.scene.add(plane)
-    // plane.rotation.x = - Math.PI / 2
-
   }
 
-  _createParticles() {
-    const particles = createParticles.init()
-    this.scene.add(particles)
+  _createParticles(color) {
+    let material = new PointsMaterial( { 
+      color: 0xffffff,
+      size: 0.15
+    })
+    // Speed
+    this.xSpeed = 0.0005
+    this.ySpeed = 0.05
+
+    // Particles
+    this.particleCount = 10
+    this.geometry = new BufferGeometry()
+    this.data = []
+    let vertices = []
+
+    for (let i = 0; i < this.particleCount; i++) {
+      this.data.push({
+        x: Math.random() * 60 - 30,
+        y: Math.random() * 60 - 30,
+        z: Math.random() * 60 - 30
+      })
+    }
+
+    this.data.forEach(p => {
+      vertices.push(p.x, p.y, p.z)
+    })
+
+    this.geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3))
+
+    this.points = new Points(this.geometry, material)
+    this.points.sortParticles = true
+    this.scene.add(this.points)
+    console.log(this.geometry.attributes.position.array)
+  }
+
+  _animateParticles(time) {
+    this.geometry.attributes.position.needsUpdate = true
+    let positions = this.geometry.attributes.position
+    let x, y, z, index
+    // x = y = z = index = 0
+    
+    for (let i = 0, l = this.particleCount; i < l; i++) {
+      let currentY = positions.getY(i)
+      if (currentY >= 50) {
+        positions.setY(i, -20)
+      } else {
+        let newY = currentY + this.ySpeed
+        positions.setY(i, newY)
+      }
+    }
   }
 
   _createCamera() {
     this.reference = new Vector3(-2, 8.5 , 0)
     this.camera = new PerspectiveCamera(75, this.container.clientWidth / this.container.clientHeight, 0.1, 1000)
     this.camera.position.set(20, 5, 15)
-    this.camera.lookAt(this.reference)
+    // this.camera.lookAt(this.reference)
   }
 
   _createControls() {
     this.controls = new OrbitControls( this.camera, this.renderer.domElement )
     this.controls.enableDamping = true
     this.controls.dampingFactor = 0.085
+
   }
 
   _createRenderer() {

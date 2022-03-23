@@ -1,22 +1,19 @@
 <template>
-  <section class="own">
-    <div class="own-title">
-      <prismic-rich-text :field="own.data.title" />
+  <section class="touch">
+    <div class="touch-title">
+      <prismic-rich-text :field="touch.data.title" />
     </div>
   </section>
 </template>
 
 <script setup>
 import { store } from '/store.js'
-import { onMounted, ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import gsap from 'gsap'
-
-const { client } = usePrismic()
-const { data: own } = await useAsyncData('own', () => client.getSingle('own'))
 
 definePageMeta({
   pageTransition: {
-    name: 'own',
+    name: 'touch',
     appear: true,
     css: false,
     mode: 'out-in',
@@ -38,12 +35,16 @@ definePageMeta({
 })
 
   onMounted(() => {
-    store.state = 1
+    store.state = 2
+    console.log(store.state)
   })
+const { client } = usePrismic()
+const { data: touch } = await useAsyncData('hear', () => client.getSingle('touch'))
 </script>
 
 <style lang="scss" scoped>
-.own {
+
+.touch {
   width: 100vw;
   height: 100vh;
   position: absolute;
@@ -56,4 +57,5 @@ definePageMeta({
   color: white;
   background-color: black;
 }
+
 </style>

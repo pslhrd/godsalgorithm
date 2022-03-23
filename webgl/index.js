@@ -2,20 +2,8 @@ import {
     Scene,
     WebGLRenderer,
     PerspectiveCamera,
-    BoxGeometry,
-    ShaderMaterial,
-    Color,
-    Vector2,
     Vector3,
-    Raycaster,
-    Object3D,
-    MathUtils,
-    LoadingManager,
     AmbientLight,
-    Mesh,
-    PlaneGeometry,
-    MeshStandardMaterial,
-    BoxHelper,
     PointLight,
     AnimationMixer,
     BufferGeometry,
@@ -23,7 +11,7 @@ import {
     Points,
     Float32BufferAttribute,
     Clock,
-    Fog
+    CameraHelper
   } from 'three'
 
 import model from '/public/models/falling.gltf'
@@ -49,7 +37,7 @@ export class App {
     this._createScene()
     this._createCamera()
     this._createRenderer()
-    this._createControls()
+    // this._createControls()
     this._createProps()
     this._createParticles('#FFFFFF')
     this._loadModel().then(() => {
@@ -58,7 +46,7 @@ export class App {
         this.delta = this.clock.getDelta()
         this.time = this.clock.getElapsedTime()
         this._render()       
-        this.controls.update()
+        // this.controls.update()
         this.mixer.update(this.delta)
         this._animateParticles(this.time)
       })
@@ -80,8 +68,8 @@ export class App {
 
   _createProps() {
     const ambient = new AmbientLight(0xffffff, 1)
-    const point = new PointLight(0xffffff, 1, 40, 2)
-    point.position.set(0, -10 ,0)
+    const point = new PointLight(0xffffff, 1, 60, 2)
+    point.position.set(0, -15 ,0)
     this.scene.add(ambient, point)
   }
 
@@ -92,7 +80,7 @@ export class App {
     })
     // Speed
     this.xSpeed = 0.0005
-    this.ySpeed = 0.05
+    this.ySpeed = 1.25
 
     // Particles
     this.particleCount = 10
@@ -139,9 +127,10 @@ export class App {
 
   _createCamera() {
     this.reference = new Vector3(-2, 8.5 , 0)
-    this.camera = new PerspectiveCamera(75, this.container.clientWidth / this.container.clientHeight, 0.1, 1000)
-    this.camera.position.set(20, 5, 15)
-    // this.camera.lookAt(this.reference)
+    this.camera = new PerspectiveCamera(75, this.container.clientWidth / this.container.clientHeight, 0.001, 1000)
+    this.camera.position.set(20, 10, 10)
+    this.camera.lookAt(this.reference)
+    // console.log(this.camera.lookAt)
   }
 
   _createControls() {
@@ -177,7 +166,7 @@ export class App {
     return new Promise(resolve => {
       this.gltfLoader.load(model, gltf => {
         this.model = gltf.scene.children[0]
-        this.model.position.set(0,-2,0)
+        this.model.position.set(0,-0,0)
         this.model.scale.set(0.005,0.005,0.005)
         this._createAnimations(gltf)
         this.scene.add(this.model)

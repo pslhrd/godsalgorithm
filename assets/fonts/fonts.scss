@@ -1,3 +1,27 @@
 html {
-    font-family: Helvetica;
+    font-family: 'Monument Grotesk Regular', helvetica, sans-serif;
+}
+
+@font-face {
+  font-family: 'Monument Grotesk Regular';
+  font-weight: 400;
+  src: url(/assets/fonts/MonumentGrotesk-Regular.woff);
+}
+
+@font-face {
+  font-family: 'Monument Grotesk Bold';
+  font-weight: 600;
+  src: url(/assets/fonts/MonumentGrotesk-Bold.woff);
+}
+
+@font-face {
+  font-family: 'Monument Grotesk Heavy';
+  font-weight: 800;
+  src: url(/assets/fonts/MonumentGrotesk-Heavy.woff);
+}
+
+@font-face {
+  font-family: 'Pixter';
+  font-weight: 400;
+  src: url(/assets/fonts/PixterGranular.woff);
 }

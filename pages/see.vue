@@ -1,23 +1,22 @@
 <template>
-  <section class="own">
-    <div class="own-title">
-      <prismic-rich-text :field="own.data.title" />
+  <section class="see">
+    <div class="see-title">
+      <prismic-rich-text :field="see.data.title" />
     </div>
   </section>
 </template>
 
 <script setup>
 import { store } from '/store.js'
-import { onMounted, ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import gsap from 'gsap'
 
 const { client } = usePrismic()
-const { data: own } = await useAsyncData('own', () => client.getSingle('own'))
+const { data: see } = await useAsyncData('see', () => client.getSingle('see'))
 
 definePageMeta({
   pageTransition: {
-    name: 'own',
-    appear: true,
+    name: 'see',
     css: false,
     mode: 'out-in',
     onEnter: (el, done) => {
@@ -38,12 +37,14 @@ definePageMeta({
 })
 
   onMounted(() => {
-    store.state = 1
+    store.state = 4
+    console.log(store.state)
   })
 </script>
 
 <style lang="scss" scoped>
-.own {
+
+.see {
   width: 100vw;
   height: 100vh;
   position: absolute;
@@ -53,7 +54,8 @@ definePageMeta({
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
   background-color: black;
+  color: white;
 }
+
 </style>

@@ -27,31 +27,31 @@ onMounted(() => {
 
     watch(store, (oldState, newState) => {
       if (store.state === 0) {
-        gsap.to(app.camera2.position, {
+        gsap.to(app.camera.position, {
           y: 15,
           duration: 3,
         })
       }
       if (store.state === 1) {
-        gsap.to(app.camera2.position, {
+        gsap.to(app.camera.position, {
           y: 14,
           duration: 3,
         })
       }
       if (store.state === 2) {
-        gsap.to(app.camera2.position, {
+        gsap.to(app.camera.position, {
           y: 18,
           duration: 3
         })
       }
       if (store.state === 3) {
-        gsap.to(app.camera2.position, {
+        gsap.to(app.camera.position, {
           y: 16,
           duration: 3
         })
       }
       if (store.state === 4) {
-        gsap.to(app.camera2.position, {
+        gsap.to(app.camera.position, {
           y: 20,
           duration: 3
         })

@@ -11,12 +11,21 @@ import {
     Points,
     Float32BufferAttribute,
     Clock,
+    AxesHelper,
+    GridHelper,
+    Fog,
+    ShaderMaterial,
+    LoadingManager,
+    DirectionalLight,
+    UniformsLib,
+    UniformsUtils,
     CameraHelper
   } from 'three'
 
-import model from '/public/models/falling.gltf'
-// import vertex from '/webgl/glsl/vertex.glsl'
-// import fragment from '/webgl/glsl/fragment.glsl'
+import model from '/models/dancing.gltf'
+import room from '/models/room.gltf'
+import vertex from '/webgl/glsl/vertex.vert'
+import fragment from '/webgl/glsl/fragment.frag'
 // import createParticles from '/webgl/particles'
 
   // Remove this if you don't need to load any 3D model
@@ -37,18 +46,18 @@ export class App {
     this._createScene()
     this._createCamera()
     this._createRenderer()
-    // this._createControls()
+    this._createControls()
     this._createProps()
-    this._createParticles('#FFFFFF')
+    // this._createParticles('#FFFFFF')
     this._loadModel().then(() => {
       this._addListeners()
       this.renderer.setAnimationLoop(() => {
         this.delta = this.clock.getDelta()
         this.time = this.clock.getElapsedTime()
         this._render()       
-        // this.controls.update()
+        this.controls.update()
         this.mixer.update(this.delta)
-        this._animateParticles(this.time)
+        // this._animateParticles(this.time)
       })
     })
   }
@@ -67,10 +76,19 @@ export class App {
   }
 
   _createProps() {
-    const ambient = new AmbientLight(0xffffff, 1)
+    const ambient = new AmbientLight(0xffffff, 0.5)
     const point = new PointLight(0xffffff, 1, 60, 2)
-    point.position.set(0, -15 ,0)
-    this.scene.add(ambient, point)
+    const directional = new DirectionalLight(0xffffff, 1)
+    const axesHelper = new AxesHelper(5)
+    point.position.set(0, 25 , 10)
+
+    point.castShadow = true
+    point.shadow.mapSize.width = 2048
+    point.shadow.mapSize.height = 2048
+    point.shadow.bias = -0.004
+
+    this.scene.add(ambient, point, axesHelper)
+    this.scene.fog = new Fog(0x120720, 50, 150)
   }
 
   _createParticles(color) {
@@ -126,10 +144,10 @@ export class App {
   }
 
   _createCamera() {
-    this.reference = new Vector3(-2, 8.5 , 0)
+    this.reference = new Vector3(0, 8.5 , 0)
     this.camera = new PerspectiveCamera(75, this.container.clientWidth / this.container.clientHeight, 0.001, 1000)
     this.camera.position.set(20, 10, 10)
-    this.camera.lookAt(this.reference)
+    // this.camera.lookAt(this.reference)
     // console.log(this.camera.lookAt)
   }
 
@@ -150,6 +168,7 @@ export class App {
 
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight)
     this.renderer.setPixelRatio(2)
+    this.renderer.shadowMap.enabled = true
   }
 
   _createAnimations(model) {
@@ -162,16 +181,37 @@ export class App {
   }
 
   _loadModel() {
-    this.gltfLoader = new GLTFLoader()
+    this.manager = new LoadingManager()
+    this.gltfLoader = new GLTFLoader(this.manager)
+
     return new Promise(resolve => {
       this.gltfLoader.load(model, gltf => {
         this.model = gltf.scene.children[0]
-        this.model.position.set(0,-0,0)
-        this.model.scale.set(0.005,0.005,0.005)
+        this.model.scale.set(0.0015, 0.0015, 0.0015)
+        this.model.position.set(0,0,-2)
         this._createAnimations(gltf)
+        this.model.castShadow = true
+        this.model.receiveShadow = true
         this.scene.add(this.model)
-        resolve()
+        this.mesh = this.model.children[1]
+        this.mesh.castShadow = true
+        this.mesh.receiveShadow = true
+        console.log(this.model)
+        
       })
+      this.gltfLoader.load(room, gltf => {
+        this.room = gltf.scene.children[0]
+        this.ground = gltf.scene.children[1]
+        this.room.castShadow = true
+        this.room.receiveShadow = true
+        this.ground.castShadow = true
+        this.ground.receiveShadow = true
+        this.scene.add(this.room, this.ground)
+      })
+      this.manager.onLoad = function () {  
+        console.log('done')
+        resolve()
+      }
     })
   }
 

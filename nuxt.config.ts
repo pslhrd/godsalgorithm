@@ -13,7 +13,7 @@ export default defineNuxtConfig({
                   additionalData: '@import "@/assets/styles/_variables.scss"',
               },
           },
-      },
+      }
   },
 
   // MODULES

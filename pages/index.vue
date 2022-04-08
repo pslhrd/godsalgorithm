@@ -53,6 +53,7 @@ console.log(store.state)
   background-color: #120720;
 
   .navigation {
+    display: none;
     position: absolute;
     top: 0;
     left: 0;
